@@ -45,7 +45,7 @@ mkwrap = (src, pass=[], special={}) ->
   obj
 
 pageWrap = (page) -> mkwrap page,
-  ['open','close','includeJs','sendEvent','release','uploadFile','close','goBack','goForward','reload', 'onInitialized', 'onLoadFinished']
+  ['open','close','includeJs','sendEvent','release','uploadFile','close','goBack','goForward','reload']
   injectJs: (js, cb=->) -> cb page.injectJs js
   evaluate: (fn, cb=(->), args...) -> cb page.evaluate.apply(page, [fn].concat(args))
   render: (file, cb=->) -> page.render file; cb()
@@ -61,6 +61,10 @@ pageWrap = (page) -> mkwrap page,
     page.viewportSize = {width:width, height:height}; cb()
   setPaperSize: (options, cb=->) -> page.paperSize = options; cb()
   setZoomFactor: (zoomFactor, cb=->) -> page.zoomFactor = zoomFactor; cb()
+  onInitialized: (fn) ->
+    page.onInitialized fn
+  onLoadFinished: (fn) ->
+    page.onLoadFinished fn
 
 _phantom = mkwrap phantom,
   ['exit'],
